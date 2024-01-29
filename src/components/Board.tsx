@@ -3,33 +3,49 @@ import Square from "./Square"
 
 type square = "black" | "white" | null
 
-const row: number = 15;
-const col: number = 15;
+export const row: number = 15;
+export const col: number = 15;
+export function Board(
+    {
+        status, 
+        setStatus, 
+        step,
+        setStep,
+        squares,
+        setSquares,
+        histort,
+        setHistort
+    }: any) {
 
-export default function Board() {
-
-    const [status, setStatus] = useState<square|string>(null)
-    const [step, setStep] = useState(0)
-    const [squares, setSquares] = useState(Array(row * col).fill(null));
-    const [histort, setHistort] = useState<number[]>(Array(0));
-
+    // const [step, setStep] = useState(0)
+    // const [squares, setSquares] = useState(Array(row * col).fill(null));
+    // const [histort, setHistort] = useState<number[]>(Array(0));
+    
     function handleClick(i: number) {
         console.log("click", i)
+        if (status === "end" || status === "review") return;
         if (squares[i] !== null) return;
 
         let nextSquares = squares.slice()
         nextSquares[i] = step % 2 === 0 ? "black" : "white"
         setSquares(nextSquares)
 
+        // histort.push(i)
         setHistort([...histort, i])
         setStep(step + 1)
 
         // 这里传squares，squares还未更新？
-        let winner = calculateWinner(nextSquares, i)    
+        let winner = calculateWinner(nextSquares, i)
 
         if (winner) {
             console.log("winner:", winner)
+            setStatus("end")
+
+            return;
+        } else {
+            setStatus("continue")
         }
+
     }
 
     let Rows = []
@@ -37,14 +53,13 @@ export default function Board() {
         Rows.push(
             <BoardRow
                 key={i}
-                rowindex={i}
-                handleClick={handleClick}>
+                rowindex={i}>
             </BoardRow>
         )
     }
 
     return (
-        <div className="board flex flex-col">{Rows}</div>
+        <div className="board flex flex-col m-auto my-2.5 bg-[#ebc091]">{Rows}</div>
     )
 
     function BoardRow({ rowindex }: any) {
