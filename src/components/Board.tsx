@@ -13,13 +13,13 @@ export function Board(
         setStep,
         squares,
         setSquares,
-        histort,
+        history,
         setHistort
     }: any) {
 
     // const [step, setStep] = useState(0)
     // const [squares, setSquares] = useState(Array(row * col).fill(null));
-    // const [histort, setHistort] = useState<number[]>(Array(0));
+    // const [history, setHistort] = useState<number[]>(Array(0));
     
     function handleClick(i: number) {
         console.log("click", i)
@@ -30,8 +30,8 @@ export function Board(
         nextSquares[i] = step % 2 === 0 ? "black" : "white"
         setSquares(nextSquares)
 
-        // histort.push(i)
-        setHistort([...histort, i])
+        // history.push(i)
+        setHistort([...history, i])
         setStep(step + 1)
 
         // 这里传squares，squares还未更新？
